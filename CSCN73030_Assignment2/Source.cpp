@@ -4,20 +4,50 @@
 //
 
 #include <iostream>
+#include <fstream>
+#include <sstream>
+#include <vector>
+
+using namespace std;
+
+// student data object
+struct STUDENT_DATA {
+    string firstName;
+    string lastName;
+
+};
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    // Vector holding student data
+    vector<STUDENT_DATA> studentData;
+
+    // opening file 
+    // NOTE I ADDED THESE FILES TO GITIGNORE I DON'T WANT THEM ON MY REPO
+    string fileName = "StudentData.txt";
+    ifstream fileIn;
+    fileIn.open(fileName);
+    if (fileIn.is_open()) {
+        // file reading loop
+        while (!fileIn.eof()) {
+            // setting up variables for data parsing
+            STUDENT_DATA tempData;
+            string line;
+            getline(fileIn, line);
+            istringstream inutStringStreamLine(line);
+            string input;
+            // parsing and collecting data
+            getline(inutStringStreamLine, input, ',');
+            tempData.firstName = input;
+            getline(inutStringStreamLine, input, ',');
+            tempData.lastName = input;
+            // adding data to vector
+            studentData.push_back(tempData);
+        }
+    }
+    else {
+        cout << "Could not open file: " << fileName << endl;
+    }
+    fileIn.close();
     return 1;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file

@@ -43,11 +43,21 @@ int main()
             tempData.lastName = input;
             // adding data to vector
             studentData.push_back(tempData);
+            // to fix end of file doing an extra loop
+            fileIn.peek();
+
         }
     }
     else {
         cout << "Could not open file: " << fileName << endl;
     }
     fileIn.close();
+    // debug functionality to print out file data to console
+#ifdef _DEBUG
+    for (int i = 0; i < studentData.size(); i++) {
+        cout << "Student first name: " << studentData.at(i).firstName << endl;
+        cout << "Student last name: " << studentData.at(i).lastName << endl;
+    }
+#endif
     return 1;
 }
